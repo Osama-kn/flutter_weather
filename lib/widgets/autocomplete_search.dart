@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:weather_app/blocs/weather/weather_bloc.dart';
+import 'package:weather_app/services/cities_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,14 +44,8 @@ class AutocompleteSearchState extends State<AutocompleteSearch> {
               key: widget.autocompleteKey, // Assign the key
               // key: ValueKey(widget.local_controller),
               optionsBuilder: (TextEditingValue textEditingValue) {
-                print("optionsBuilder " + textEditingValue.text);
-                // widget.controller.text = textEditingValue.text;
-                // return _suggestions.toList();
-                return _suggestions
-                    .where((suggestion) => suggestion
-                        .toLowerCase()
-                        .contains(textEditingValue.text.toLowerCase()))
-                    .toList();
+                return CityService.fetchCities(
+                    textEditingValue.text.toLowerCase());
               },
               onSelected: (String selectedCity) {
                 // widget.controller.text = selectedCity;
@@ -67,7 +62,7 @@ class AutocompleteSearchState extends State<AutocompleteSearch> {
                             cityController, // Use widget.cityController here
                         focusNode: focusNode,
                         onChanged: (String value) {
-                          _getCitySuggestions(value);
+                          // _getCitySuggestions(value);
                           if (value.isEmpty) {
                             widget.onClearPressed
                                 ?.call(); // Call clear callback if value is empty
@@ -81,12 +76,11 @@ class AutocompleteSearchState extends State<AutocompleteSearch> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.clear),
+                      icon: const Icon(Icons.home),
                       onPressed: () {
                         print("Clear button pressed");
                         cityController.clear();
                         widget.cityController.clear(); // Clear the text field
-                        _clearSuggestions(); // Clear suggestions list
                         widget.onClearPressed?.call(); // Call clear callback
                       },
                     ),
@@ -123,23 +117,5 @@ class AutocompleteSearchState extends State<AutocompleteSearch> {
             ),
           )
         ]));
-  }
-
-  _getCitySuggestions(String query) async {
-    try {
-      final suggestions = await _weatherService.getCitySuggestions(query);
-      setState(() {
-        _suggestions = suggestions;
-      });
-      print("Suggestions: $suggestions query: $query");
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void _clearSuggestions() {
-    setState(() {
-      _suggestions.clear();
-    });
   }
 }
