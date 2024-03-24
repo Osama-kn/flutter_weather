@@ -8,20 +8,20 @@ A simple weather app built with Flutter to display current weather information f
 - Autocomplete search functionality to find cities easily.
 - Clear button to reset the search input and suggestions.
 
+## Technologies Used
+
+- Flutter: A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
+- Bloc Library: A predictable state management library for Dart and Flutter that helps implement the BLoC (Business Logic Component) architectural pattern.
+
+
 ## Installation
 
-1. Clone the repository to your local machine:
-
-
-2. Navigate to the project directory:
-
-
+1. Clone the repository to your local machine
+2. Navigate to the project directory
 3. Install dependencies:
     ``` flutter pub get ```
-
 4. Run the app: 
     ``` flutter run ```
-
 
 
 ## Usage
